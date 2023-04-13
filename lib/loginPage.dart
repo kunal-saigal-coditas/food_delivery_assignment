@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery/homePage.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  LoginPage({super.key});
+
+  ValueNotifier<bool> toggle = ValueNotifier<bool>(true);
 
   @override
   Widget build(BuildContext context) {
@@ -60,22 +62,35 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8)),
-                            ),
-                            filled: true,
-                            fillColor: Colors.white,
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 22, horizontal: 10),
-                            labelText: "Password",
-                            labelStyle: TextStyle(fontSize: 20),
-                            hintText: "Enter Password",
-                          ),
-                          obscureText: true,
+                        ValueListenableBuilder(
+                          valueListenable: toggle,
+                          builder: (context, value, child) {
+                            return TextFormField(
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8)),
+                                ),
+                                filled: true,
+                                fillColor: Colors.white,
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 22, horizontal: 10),
+                                labelText: "Password",
+                                labelStyle: TextStyle(fontSize: 20),
+                                hintText: "Enter Password",
+                                suffix: InkWell(
+                                  onTap: () {
+                                    toggle.value = (!toggle.value);
+                                  },
+                                  child: Icon(toggle.value
+                                      ? Icons.visibility_off_outlined
+                                      : Icons.visibility),
+                                ),
+                              ),
+                              obscureText: toggle.value,
+                            );
+                          },
                         ),
                         Container(
                           height: 30,
